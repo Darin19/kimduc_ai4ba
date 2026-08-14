@@ -626,15 +626,16 @@ async function main(): Promise<void> {
 }
 
 // Only auto-run when executed directly (not when imported by tests).
-const isMain = (() => {
-  try {
-    return process.argv[1] !== undefined && import.meta.url === `file://${process.argv[1]}`;
-  } catch {
-    return false;
-  }
-})();
+// const isMain = (() => {
+//   try {
+//     return process.argv[1] !== undefined && import.meta.url === `file://${process.argv[1]}`;
+//   } catch {
+//     return false;
+//   }
+// })();
 
-if (isMain) {
+// if (isMain) {
+if (import.meta.main) {
   main().catch((err) => {
     // Last-resort: report on stderr (stdout is the MCP channel).
     process.stderr.write(`[reqwise-figma-mcp] fatal: ${err instanceof Error ? err.stack ?? err.message : String(err)}\n`);
